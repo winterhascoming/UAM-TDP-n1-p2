@@ -66,16 +66,6 @@ def ExcluirUsuario(Cadastro):
 
     print(Cadastro)
 
-def EditarUsuario2(Cadastro):
-    Email = input('Digite o email que deseja procurar: ')
-    Excluido = Cadastro.index(Email)
-    Cadastro.pop(Excluido)
-    Nome = input("Digite o nome: ")
-    Email = input("Digite o email: ")
-    Cadastro.insert(Excluido,Nome+", "+Email)
-
-    print(Cadastro)
-
 def EditarUsuario(Cadastro):
     Buscar = input('Digite o email correspondente ao Usuário que deseja editar: ')
     Removido = []
