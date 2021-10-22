@@ -1,4 +1,57 @@
-def Menu(Escolha,Cadastro):
+from collections import OrderedDict
+
+alunos = OrderedDict()
+indice_alunos = OrderedDict()
+
+def guardar_aluno():
+    email, nome = input("Digite o email a ser cadastrado: "), input("Digite o Nome Completo a ser cadastrado: ")
+    alunos[email] = {"email": email, "nome": nome, "id": len(alunos.keys())}
+    indice_alunos[nome] = email
+
+
+def pesquisar_por_nome(nome: str):
+    try:
+        email = indice_alunos[nome]
+        print('Usuário encontrado no Sistema.')
+    except KeyError:
+        print("Usuário não encontrado no Sistema.")
+    else:
+        alunos[email]
+
+def pesquisar_por_email(email: str):
+    try:
+        aluno = alunos[email]
+        print('Usuário encontrado no Sistema.')
+    except KeyError:
+        print('Usuário não encontrado no Sistema.')
+    else:
+        print(aluno)
+
+def atualizar_dados(ref: str, email: str, nome: str):
+    try:
+        alunos[ref]
+    except KeyError:
+        try:
+            ref = indice_alunos[ref]
+        except KeyError:
+            print("aluno não existe")
+    if nome:
+        nome_antigo = alunos[ref]["nome"]
+        alunos[ref]["nome"] = nome
+        indice_alunos[nome] = indice_alunos.pop(nome_antigo)
+    if email:
+        alunos[email] = alunos.pop(ref)
+        indice_alunos[alunos[email]["nome"]] = email
+
+def listar_usuarios():
+    for item in sorted(alunos.values(), key=lambda item: item["id"]):
+        print(item)
+
+def listar_usuarios_az():
+    for alunos_az in sorted(alunos.values(), key=lambda item: item["nome"]):
+        print(alunos_az)
+
+def Menu(Escolha):
     while Escolha != 7:
         print('''        [ 1 ] Cadastrar Usuário
         [ 2 ] Exibir Cadastros
@@ -9,82 +62,27 @@ def Menu(Escolha,Cadastro):
         [ 7 ] Encerrar Sistema''')
         Escolha = int(input('>>>'))
         if Escolha == 1:
-            CadastrarUsuarios(Cadastro)
+            guardar_aluno()
         elif Escolha == 2:
-            ExibirCadastros(Cadastro) 
+            listar_usuarios()
         elif Escolha == 3:
-            ExibirCadastrosAZ(Cadastro)
+            listar_usuarios_az()
         elif Escolha == 4:
-            BuscarUsuario(Cadastro)
+            busca = input("Busca no Sistema pelo Usuário(Nome): ")
+            pesquisar_por_nome(busca)
         elif Escolha == 5:
-            ExcluirUsuario(Cadastro)
+            pass
         elif Escolha == 6:
-            EditarUsuario(Cadastro)
+            atualizar_dados()
         elif Escolha == 7:
             print('Encerrando Sistema...')
         else:
             print('Escolha inválida. Tente novamente!')
         print('-=' * 25)
 
-def CadastrarUsuarios(Cadastro):
-    Repetir = 0
-    while Repetir != 1:
-        Nome = input('Digite o Nome Completo a ser cadastrado: ')
-        Email = input('Digite o email a ser cadastrado: ')
-        if Cadastro.get(Nome):
-            print('Nome já cadastrado no Sistema. ', Nome)
-        elif Cadastro.get(Email):
-            print('Email já cadastrado no Sistema', Email)
-        else:
-            Cadastro[Nome] = Email
-        Repetir = int(input('''        [ 0 ] Cadastrar outro Usuário
-        [ 1 ] Voltar ao Menu\n>>>''')) 
-
-def ExibirCadastros(Cadastro):
-        print(Cadastro)
-
-def ExibirCadastrosAZ(Cadastro):
-    for i in sorted(Cadastro, key = Cadastro.get, reverse=False):
-        print(i, Cadastro[i])
-
-def BuscarUsuario(Cadastro):
-    Busca=input('Digite o nome do Usuário desejado: ')
-    if Cadastro.get(Busca):
-        print('Usuário: {} Cadastrado no Sistema.'.format(Busca))
-    else:
-        print('Usuário: {} Não Cadastrado no Sistema.'.format(Busca))
-
-def ExcluirUsuario(Cadastro):
-    Buscar = input('Digite o Email do usuário a ser excluído: ')
-    Removido = []
-    for i in Cadastro.items(): 
-        if Cadastro[i] == Buscar:
-            Removido.append(i)
-
-    for item in Removido:
-        Cadastro.pop(item)
-
-    print(Cadastro)
-
-def EditarUsuario(Cadastro):
-    Buscar = input('Digite o email correspondente ao Usuário que deseja editar: ')
-    Removido = []
-    for key in Cadastro.items(): 
-        if Cadastro[key] == Buscar:
-            Removido.append(key)
-
-    for item in Removido:
-        Cadastro.pop(item)
-        NovoNome = input('Digite o Nome Completo a ser cadastrado: ')
-        Cadastro.update({NovoNome:Buscar})
-
-    print(Cadastro)
-
 def main():
-
     Escolha = 0
-    Cadastro = {}
-    Menu(Escolha, Cadastro)
+    Menu(Escolha)
 
 if __name__ == "__main__":
     main()
