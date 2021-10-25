@@ -1,0 +1,19 @@
+def Menu(Escolha):
+    while Escolha != 7:
+        print('''        [ 1 ] Cadastrar Usuário
+        [ 2 ] Exibir Cadastros
+        [ 3 ] Exibir Cadastros A -> Z
+        [ 4 ] Buscar Usuário
+        [ 5 ] Excluir Usuário
+        [ 6 ] Editar Cadastro
+        [ 7 ] Encerrar Sistema''')
+        Escolha = int(input('>>>'))
+        if Escolha == 1:
+            guardar_aluno()
+        elif Escolha == 2:
+            listar_usuarios()
+        elif Escolha == 3:
+            listar_usuarios_az()
+        elif Escolha == 4:
+            pesquisar_por_nome(busca)
+        print('-=' * 25)
