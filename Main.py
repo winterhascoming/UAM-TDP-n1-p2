@@ -34,7 +34,7 @@ def atualizar_dados(ref: str, email: str, nome: str):
         try:
             ref = indice_alunos[ref]
         except KeyError:
-            print("aluno não existe")
+            print("O aluno não existe!")
     if nome:
         nome_antigo = alunos[ref]["nome"]
         alunos[ref]["nome"] = nome
